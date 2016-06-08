@@ -5,7 +5,7 @@ define("NEUTRO",2);
 define("MUYBUENO",3);
 define("MUYMALO",4);
 
-class Utils {
+class UtilsInform {
 
 	//Convierte un bool SQL en bool PHP
 	static function sqlBoolToPHP($sqlBool) {
@@ -173,7 +173,7 @@ class Utils {
 		{
 			if(is_numeric($postBool))
 			{
-				if(Utils::postIntToPHP($postBool)==0)
+				if(UtilsInform::postIntToPHP($postBool)==0)
 				{
 					$phpBool = false;
 				}
@@ -350,9 +350,9 @@ class Utils {
 	{
 		$phpTimestamp = null;
 		if (!empty($postDate)) {
-        	$anio = Utils::postIntToPHP(substr($postDate, 6, 4));
-	        $mes = Utils::postIntToPHP(substr($postDate, 3, 2));
-	        $dia = Utils::postIntToPHP(substr($postDate, 0, 2));
+        	$anio = UtilsInform::postIntToPHP(substr($postDate, 6, 4));
+	        $mes = UtilsInform::postIntToPHP(substr($postDate, 3, 2));
+	        $dia = UtilsInform::postIntToPHP(substr($postDate, 0, 2));
 	        
         	if (checkdate($mes, $dia, $anio)) {
                 $phpTimestamp = mktime(0, 0, 0, $mes, $dia, $anio);
@@ -385,9 +385,9 @@ class Utils {
 		} 
 		else 
 		{
-        	$anio = Utils::postIntToPHP(substr($postDate, 6, 4));
-	        $mes = Utils::postIntToPHP(substr($postDate, 3, 2));
-	        $dia = Utils::postIntToPHP(substr($postDate, 0, 2));
+        	$anio = UtilsInform::postIntToPHP(substr($postDate, 6, 4));
+	        $mes = UtilsInform::postIntToPHP(substr($postDate, 3, 2));
+	        $dia = UtilsInform::postIntToPHP(substr($postDate, 0, 2));
 			
         	if (!checkdate($mes, $dia, $anio)) {
 	        	throw new Exception("El parametro:" . $postDate . " no cumple con el formato de fecha especificado", 2010007);
@@ -624,7 +624,7 @@ class Utils {
 	static function stringToArray($texto)
 	{
 		str_replace('\n',' ',$texto);//primero reemplazo enters por espacios en blanco
-		$parts = split(" ",Utils::borrarDoblesEspaciosBlancos($texto)); //borro los dobles espacios en blanco y busco la palabra num
+		$parts = split(" ",UtilsInform::borrarDoblesEspaciosBlancos($texto)); //borro los dobles espacios en blanco y busco la palabra num
 		return $parts;
 	}
 	
@@ -632,7 +632,7 @@ class Utils {
 	static function palabra($texto,$num)
 	{
 		str_replace('\n',' ',$texto);//primero reemplazo enters por espacios en blanco
-		$parts = split(" ",Utils::borrarDoblesEspaciosBlancos($texto)); //borro los dobles espacios en blanco y busco la palabra num
+		$parts = split(" ",UtilsInform::borrarDoblesEspaciosBlancos($texto)); //borro los dobles espacios en blanco y busco la palabra num
 		
 		return $parts[$num -1];
 	}
@@ -958,13 +958,13 @@ class Utils {
 	  }
 	  if($d < 0) {
 	    $m = $m - 1;
-	    $d = $d + Utils::get_days_for_previous_month($m2, $Y2);
+	    $d = $d + UtilsInform::get_days_for_previous_month($m2, $Y2);
 	  }
 	  if($m < 0) {
 	    $Y = $Y - 1;
 	    $m = $m + 12;
 	  }
-	  $timespan_string = Utils::create_timespan_string($Y, $m, $d, $H, $i, $s);
+	  $timespan_string = UtilsInform::create_timespan_string($Y, $m, $d, $H, $i, $s);
 	  //var_dump($timespan_string);
 	  return $timespan_string;
 	}

@@ -12,7 +12,7 @@ class informaticaDataBaseLinker
 //-------------------------------------Constructor--------------------------------------------//
 	function informaticaDataBaseLinker()
 	{
-		$this->dbInf = new dataBaseConnector(HOST,0,DBvieja,USRDBvieja,PASSDBvieja);
+		$this->dbInf = new dataBaseConnector(HOSTING,0,DBPRUEB,USRPRUEB,PASSPRUEB);
 	}
 //---------------------------------------------------------------------------------------------//
 
