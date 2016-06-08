@@ -1,6 +1,3 @@
-<!--  TODO falta agregar al menu para que se vea una lista de reparados
-
-      -->
 <?php
 
 
@@ -9,10 +6,9 @@ $infDb = new informaticaDataBaseLinker();
 
 $reparaciones = $infDb->traerLista();
 
-$centros = ['1'=>'Abete','2'=>'Pediatrico','3'=>'Materno','4'=>'Cormillot','5'=>'Polo','6'=>'Drozdowsky','7'=>'Otros'];
-$estados = ['1'=>'En espera','2'=>'En reparacion','3'=>'Reparado','4'=>'Entregado', '5'=> 'Baja'];
+$centros = array('1'=>'Abete','2'=>'Pediatrico','3'=>'Materno','4'=>'Cormillot','5'=>'Polo','6'=>'Drozdowsky','7'=>'Otros');
+$estados = array('1'=>'En espera','2'=>'En reparacion','3'=>'Reparado','4'=>'Entregado', '5'=> 'Baja');
 
-//var_dump($reparaciones);
 
 ?>
 <!DOCTYPE html>
