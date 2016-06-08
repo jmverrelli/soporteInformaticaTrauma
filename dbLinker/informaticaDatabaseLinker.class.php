@@ -2,7 +2,6 @@
 include_once 'conectionData.php';
 include_once 'dataBaseConnector.php';
 include_once 'utils.php';
-include_once 'FirePHPCore/FirePHPINF.class.php';
 
 class informaticaDataBaseLinker
 {
