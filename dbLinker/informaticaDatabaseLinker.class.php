@@ -20,9 +20,9 @@ class informaticaDataBaseLinker
 		$response = new stdClass();
 		$response->ret = false;
 		$response->message = "Hubo un error agregando el equipo.";
-		$query = "INSERT INTO informatica (equipo, estado, fecha_ingreso, hora_ingreso, centro, sector, observaciones,fecha_modificado)
+		$query = "INSERT INTO informatica (equipo, estado, fecha_ingreso, hora_ingreso, centro, sector, observaciones,fecha_modificado, usuario)
 					VALUES('".$data['insumo']."','".$data['estado']."','".$data['fechaRecibido']."','".$data['horaRecibido']."',
-					'".$data['centro']."','".$data['sector']."','".$data['observaciones']."',now());";
+					'".$data['centro']."','".$data['sector']."','".$data['observaciones']."',now(), '".$data['user']."');";
 
 		try{$this->dbInf->conectar();$this->dbInf->ejecutarAccion($query);$response->ret = true; $response->message = "Equipo agregado correctamente.";}
 		catch (Exception $e){echo "error intentando ejecutar query: $query <br> " . $e->getMessage();}
@@ -43,7 +43,7 @@ class informaticaDataBaseLinker
 		for($i = 0 ; $i < $this->dbInf->querySize; $i++)
 		{
 			$result = $this->dbInf->fetchRow($query);
-			$ret[] = array('id' => $result['id'],'equipo' => $result['equipo'],'estado' => $result['estado'],'fecha_ingreso' => $result['fecha_ingreso'],'hora_ingreso' => $result['hora_ingreso'],'centro' => $result['centro'],'sector' => $result['sector'], 'observaciones' =>$result['observaciones']);
+			$ret[] = array('id' => $result['id'],'equipo' => $result['equipo'],'estado' => $result['estado'],'fecha_ingreso' => $result['fecha_ingreso'],'hora_ingreso' => $result['hora_ingreso'],'centro' => $result['centro'],'sector' => $result['sector'], 'observaciones' =>$result['observaciones'],'usuario' => $result['usuario']);
 		}
 		$this->dbInf->desconectar();
 		return $ret;
@@ -57,7 +57,18 @@ class informaticaDataBaseLinker
 		$response->message = "Hubo un error al actualizar el equipo.";
 		$this->dbInf->conectar();
 		foreach ($data as $key => $value) {
-			$query = "UPDATE informatica SET estado = ".$value." WHERE id = ".$key;
+
+            $fuemodif = "";
+            $query="SELECT estado FROM informatica where id = ".$key.";";
+
+            $this->dbInf->ejecutarQuery($query);
+            $result = $this->dbInf->fetchRow($query);
+            if($result['estado'] != $value)
+            {
+                $fuemodif = " , fecha_modificado = now() ";
+            }
+
+			$query = "UPDATE informatica SET estado = ".$value." ".$fuemodif." WHERE id = ".$key;
 			try{$this->dbInf->ejecutarAccion($query);$response->ret = true; $response->message = "Equipo agregado correctamente.";}
 			catch (Exception $e){echo "error intentando ejecutar query: $query <br> " . $e->getMessage();}
 			
@@ -148,6 +159,7 @@ class informaticaDataBaseLinker
             }
             $row[] = $equipos['sector'];
             $row[] = $equipos['observaciones'];
+            $row[] = $equipos['usuario'];
             $row[] = '';
             //agrego datos a la fila con clave cell
 
@@ -163,6 +175,7 @@ class informaticaDataBaseLinker
         $response->userdata['centro']= 'centro';
         $response->userdata['sector']= 'sector';
         $response->userdata['observaciones']= 'observaciones';
+        $response->userdata['usuario']= 'usuario';
         $response->userdata['myac'] = '';
 
         return json_encode($response);
@@ -198,7 +211,8 @@ class informaticaDataBaseLinker
                     hora_ingreso AS hora_ingreso,
                     centro AS centro,
                     sector AS sector,
-                    observaciones as observaciones
+                    observaciones as observaciones,
+                    usuario as usuario
                 FROM 
                     informatica
                 WHERE
@@ -249,6 +263,29 @@ class informaticaDataBaseLinker
 			catch (Exception $e){echo "error intentando ejecutar query: $query <br> " . $e->getMessage();}
 	$this->dbInf->desconectar();
 			return $response;
+    }
+
+    function tieneAcceso($usr, $psw)
+    {
+        $query= "SELECT usuario as usuario, password as password from usuarios WHERE usuario = '$usr' and habilitado = 1;";
+        $this->dbInf->conectar();
+        $this->dbInf->ejecutarQuery($query);
+        $result = $this->dbInf->fetchRow($query);
+        $returned = false;
+        if($usr == $result['usuario']){
+            if($psw == $result['password']){
+                $returned = true;
+            }
+        }
+        
+        $this->dbInf->desconectar();
+        return $returned;
+
+
+
+
+
+
     }
 
 

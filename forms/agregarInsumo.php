@@ -60,4 +60,6 @@
 <textarea class="etiqueta" name="observaciones" id="observaciones"></textarea>
 </div>
 
+<input type="text" name="user" style="visibility:hidden; display:none;" value=<?php echo "'".$_SERVER['PHP_AUTH_USER']."'"; ?> >
+
 </form>

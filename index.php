@@ -1,97 +1,49 @@
 <?php
-
-
 include_once 'dbLinker/informaticaDatabaseLinker.class.php';
 $infDb = new informaticaDataBaseLinker();
+/*if($infDb->tieneAcceso($_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW']))
+    {
 
-$reparaciones = $infDb->traerLista();
-
-$centros = array('1'=>'Abete','2'=>'Pediatrico','3'=>'Materno','4'=>'Cormillot','5'=>'Polo','6'=>'Drozdowsky','7'=>'Otros');
-$estados = array('1'=>'En espera','2'=>'En reparacion','3'=>'Reparado','4'=>'Entregado', '5'=> 'Baja');
-
-
-?>
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!--<title>( ͡° ͜ʖ ͡°)Desu~</title>-->
-  <title>(ﾉ◕ヮ◕)ﾉ*Informatica·</title>
-
-    <script src="js/jquery1-12.js" type="text/javascript"></script>
-    <script src="js/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="js/jquery.timepicker.min.js" type="text/javascript"></script>
-    <script src="js/informatica.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="js/jquery-ui.min.css">
-    <link rel="stylesheet" href="js/jquery-ui.structure.min.css">
-    <link rel="stylesheet" href="js/jquery-ui.theme.min.css">
-    <link rel="stylesheet" href="js/jquery.timepicker.css">
-    <link rel="stylesheet" href="css/style.css">
-<!--    <link rel="Stylesheet" type="text/css" href="/tools/jquery/jqGrid/css/ui.jqgrid.css" />
-    <script type="text/javascript" src="/tools/jquery/jqGrid/js/i18n/grid.locale-es.js"></script>
-    <script type="text/javascript" src="/tools/jquery/jqGrid/js/jquery.jqGrid.min.js"></script>-->
-
-    <link rel="stylesheet" href="js/jqgrid/css/ui.jqgrid-bootstrap-ui.css">
-    <link rel="stylesheet" href="js/jqgrid/css/ui.jqgrid-bootstrap.css">
-    <link rel="stylesheet" href="js/jqgrid/css/ui.jqgrid.css">
-    <link rel="stylesheet" href="js/jqgrid/plugins/searchFilter.css">
-    <script src="js/jqgrid/js/i18n/grid.locale-es.js" type="text/javascript"></script>
-    <script src="js/jqgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
-    <script src="js/jqgrid/plugins/grid.addons.js" type="text/javascript"></script>
-    <script src="js/jqgrid/plugins/jquery.searchFilter.js" type="text/javascript"></script>
-
-
-
-</head>
-
-<body>
-<h1>Soporte Informatica</h1>
-<hr />
-<ul class="menu cf">
-  <li><a href="/informatica/">Lista Reparaciones</a></li>
-  <li>
-    <a href="#">Editar</a>
-    <ul class="submenu">
-      <li><a name="agregarInsumo" id="agregarInsumo">Agregar Insumo</a></li>
-      <li><a name="listaPedidos" id="listaPedidos">Pedidos listos</a></li>
-   </ul>
-  </li>
-</ul>
-
-<div id="listaReparaciones" name="listaReparaciones">
-<form id="formReparaciones" name="formReparaciones">
-<table class="tabla">
-  <tr><th>Equipo</th><th>Estado</th><th>Fecha Ingreso</th><th>Hora Ingreso</th><th>Centro</th><th>Sector</th><th>Observaciones</th></tr>
-
-  <?php 
-  for($i = 0; $i < count($reparaciones); $i++){
-    $optionEstado = "<select class='select' id='Reparacion".$reparaciones[$i]['id']."' name='".$reparaciones[$i]['id']."'>";
-    for($x = 1; $x <= count($estados) ; $x++ ){
-        $selected = '';
-        if($reparaciones[$i]['estado'] == $x){
-          $selected = " selected='selected' ";
-        }
-        $optionEstado .= "<option value='".$x."' ".$selected.">".$estados[$x]."</option>";  
+      header('main.php');
     }
-    $optionEstado .= "</select>";    
+*/
 
-    echo "<tr><td>".$reparaciones[$i]['equipo']."</td><td>".$optionEstado."</td><td>".$reparaciones[$i]['fecha_ingreso'].
-        "</td><td>".$reparaciones[$i]['hora_ingreso']."</td><td>".$centros[$reparaciones[$i]['centro']]."</td><td>".$reparaciones[$i]['sector']."<td>".$reparaciones[$i]['observaciones']."
-        </td></tr>";
-  }
-  ?>
-</table>
-<button class="btnGuardar" id="guardarCambiosEquipos" name="guardarCambiosEquipos">Guardar</button>
-</form>
-</div>
+    // Status flag:
+$LoginSuccessful = false;
+ 
+// Check username and password:
+if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])){
+ 
+    $_SERVER['PHP_AUTH_PW'] = md5($_SERVER['PHP_AUTH_PW']);
 
-<div id="dialog-agregarReparacion" name="dialog-agregarReparacion"></div>
-
-<div id="dialog-todasReparaciones" name="dialog-todasReparaciones">
-</div>
-
-</body>
-</html>
+    if ($infDb->tieneAcceso($_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW'])){
+        $LoginSuccessful = true;
+    }
+}
+ 
+// Login passed successful?
+if (!$LoginSuccessful){
+ 
+    /* 
+    ** The user gets here if:
+    ** 
+    ** 1. The user entered incorrect login data (three times)
+    **     --> User will see the error message from below
+    **
+    ** 2. Or the user requested the page for the first time
+    **     --> Then the 401 headers apply and the "login box" will
+    **         be shown
+    */
+ 
+    // The text inside the realm section will be visible for the 
+    // user in the login box
+    header('WWW-Authenticate: Basic realm="soporteInformaticaTrauma"');
+    header('HTTP/1.0 401 Unauthorized');
+ 
+    print "Login fallo\n";
+ 
+}
+else {
+   header("Location: main.php");
+  die();
+}

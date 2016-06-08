@@ -6,7 +6,7 @@
     /*postData: {nrodoc:nrodoc, tipodoc:tipodoc}, 
     mtype: "POST",*/
     datatype: "json",
-    colNames:['Id','equipo', 'estado', 'fecha_ingreso', 'hora_ingreso','centro', 'sector','observaciones',''],
+    colNames:['Id','equipo', 'estado', 'fecha_ingreso', 'hora_ingreso','centro', 'sector','observaciones','usuario',''],
     colModel:[ 
     {name:'id', index:'id',width:'100%',align:"left",fixed:true,editable:false},
     {name:'equipo', index:'equipo',width:'100%',align:"left",fixed:true,editable:true, search: true, sortable:true},
@@ -18,6 +18,7 @@
 	editoptions:{value:"1:Abete;2:Pediatrico;3:Materno;4:Cormillot;5:Polo;6:Drozdowski;7:Otros"}},
     {name:'sector', index:'sector',width:'100%',align:"left",fixed:true,editable:true,sortable:true},
     {name:'observaciones', index:'observaciones',width:'100%',align:"left",fixed:true,editable:true, search: false, sortable:false},                
+    {name:'usuario', index:'usuario',width:'100%',align:"left",fixed:true,editable:false,sortable:true,search: true},
                     {name: 'myac', width: '40%', fixed: true, sortable: false, resize: false, formatter: 'actions', search: false,
                     formatoptions: 
                     {
