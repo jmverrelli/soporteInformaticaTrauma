@@ -137,7 +137,7 @@ define('FirePHP_GROUP_END', 'GROUP_END');
  * @license     http://www.opensource.org/licenses/bsd-license.php
  * @package     FirePHPCore
  */
-class FirePHP {
+class FirePHP4 {
   /**
    * Wildfire protocol message index
    *
@@ -179,7 +179,7 @@ class FirePHP {
   /**
    * The object constructor
    */
-  function FirePHP() {
+  function FirePHP4() {
   }
 
     
