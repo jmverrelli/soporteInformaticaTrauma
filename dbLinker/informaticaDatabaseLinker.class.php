@@ -280,11 +280,49 @@ class informaticaDataBaseLinker
         
         $this->dbInf->desconectar();
         return $returned;
+    }
 
+    function agregarUsuario($data)
+    {
+        $response = new stdClass();
+        $response->ret = false;
+        $response->message = "Hubo un error agregando el usuario.";
+        $query = "INSERT INTO usuarios (usuario, password, habilitado)
+                    VALUES('".$data['usuario']."','".md5($data['password'])."',1);";
 
+        try{$this->dbInf->conectar();$this->dbInf->ejecutarAccion($query);$response->ret = true; $response->message = "Usuario agregado correctamente.";}
+        catch (Exception $e){echo "error intentando ejecutar query: $query <br> " . $e->getMessage();}
 
+        $this->dbInf->desconectar();
 
+        return $response;
 
+    }
+
+    function eliminarUsuario($data)
+    {
+        $response = new stdClass();
+        $response->ret = false;
+        $response->message = "Hubo un error eliminando el usuario.";
+        $query = "SELECT * FROM usuarios WHERE usuario = '".$data['usuario']."' and habilitado = 1";
+        $this->dbInf->conectar();
+        $this->dbInf->ejecutarQuery($query);
+        $result = $this->dbInf->fetchRow($query);
+        if(!$result)
+        {
+            $response->message = "No existe un usuario con ese nombre.";
+            $this->dbInf->desconectar();
+            return $response;
+        }
+        
+        $query = "UPDATE usuarios SET habilitado = 0 WHERE id = ".$result['id']." and habilitado = 1;";
+
+        try{$this->dbInf->conectar();$this->dbInf->ejecutarAccion($query);$response->ret = true; $response->message = "Usuario eliminado correctamente.";}
+        catch (Exception $e){echo "error intentando ejecutar query: $query <br> " . $e->getMessage();}
+
+        $this->dbInf->desconectar();
+
+        return $response;
 
     }
 

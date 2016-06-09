@@ -50,12 +50,22 @@ $estados = array('1'=>'En espera','2'=>'En reparacion','3'=>'Reparado','4'=>'Ent
 <h1>Soporte Informatica</h1>
 <hr />
 <ul class="menu cf">
-  <li><a href="/informatica/">Lista Reparaciones</a></li>
+  
+  <li>
+    <a href="">usuarios</a>
+    <ul class="submenu">
+      <li><a name="altaUsuario" id="altaUsuario">Agregar usuario</a></li>
+      <li><a name="bajaUsuario" id="bajaUsuario">Eliminar usuario</a></li>
+   </ul>
+  </li>
+
+  <li><a href="/soporteInformaticaTrauma/main.php">Lista Reparaciones</a></li>
+  
   <li>
     <a href="#">Editar</a>
     <ul class="submenu">
       <li><a name="agregarInsumo" id="agregarInsumo">Agregar Insumo</a></li>
-      <li><a name="listaPedidos" id="listaPedidos">Pedidos listos</a></li>
+      <li><a name="listaPedidos" id="listaPedidos">Todos los ingresos</a></li>
    </ul>
   </li>
 </ul>
@@ -91,6 +101,12 @@ $estados = array('1'=>'En espera','2'=>'En reparacion','3'=>'Reparado','4'=>'Ent
 <div id="dialog-agregarReparacion" name="dialog-agregarReparacion"></div>
 
 <div id="dialog-todasReparaciones" name="dialog-todasReparaciones">
+</div>
+
+<div id="dialog-Altausuario" name="dialog-Altausuario">
+</div>
+
+<div id="dialog-Bajausuario" name="dialog-Bajausuario">
 </div>
 
 </body>

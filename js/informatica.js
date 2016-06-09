@@ -47,6 +47,92 @@ $(document).ready(function(){
         });          
   });
 
+ $('#altaUsuario').click(function(event){
+    event.preventDefault();
+        $("#dialog:ui-dialog").dialog("destroy");
+        $("#dialog-Altausuario").css('visibility',"visible");
+        $("#dialog-Altausuario").load("forms/altaUsuario.php",function(){  //HACER ESTE FORM
+          $("#dialog-Altausuario").dialog({
+            modal: true,
+           width: "500px",
+            height: "auto",
+            title: "Agregar Usuario",
+            buttons:
+            {
+              "Agregar":function()
+                {
+                    dataForm = $('#formAltaUsuario').serialize(); //PONERLE ESTE ID AL FORM
+                    $.ajax({
+                      data: dataForm,
+                      type: "POST",
+                      dataType: "json",
+                      url: "forms/agregarUsuario.php", //hacer este php para guardar
+                      success: function(data)
+                      {
+                        if(data.ret)
+                        {
+                          alert(data.message);
+                          location.reload();
+                        }
+                        else
+                        {
+                          alert(data.message);
+                        }
+                      }
+                    });
+                },
+                "Cerrar":function()
+                {
+                    $(this).dialog("close");
+                }
+            }
+          });
+        });          
+  });
+
+  $('#bajaUsuario').click(function(event){
+    event.preventDefault();
+        $("#dialog:ui-dialog").dialog("destroy");
+        $("#dialog-Bajausuario").css('visibility',"visible");
+        $("#dialog-Bajausuario").load("forms/bajaUsuario.php",function(){ //HACER ESTE FORM
+          $("#dialog-Bajausuario").dialog({
+            modal: true,
+           width: "500px",
+            height: "auto",
+            title: "Eliminar Usuario",
+            buttons:
+            {
+              "Eliminar":function()
+                {
+                    dataForm = $('#formBajaUsuario').serialize(); //PONERLE ESTE ID AL FORM
+                    $.ajax({
+                      data: dataForm,
+                      type: "POST",
+                      dataType: "json",
+                      url: "forms/eliminarUsuario.php", //hacer este php para guardar
+                      success: function(data)
+                      {
+                        if(data.ret)
+                        {
+                          alert(data.message);
+                          location.reload();
+                        }
+                        else
+                        {
+                          alert(data.message);
+                        }
+                      }
+                    });
+                },
+                "Cerrar":function()
+                {
+                    $(this).dialog("close");
+                }
+            }
+          });
+        });          
+  });
+
 
  $('#listaPedidos').click(function(event){
     event.preventDefault();
