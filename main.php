@@ -1,5 +1,12 @@
 <?php
 
+if(!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_USER']))
+{
+  echo "No se identifico correctamente!."; //generar un 404!
+  exit;
+}
+
+
 include_once 'dbLinker/informaticaDatabaseLinker.class.php';
 $infDb = new informaticaDataBaseLinker();
 

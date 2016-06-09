@@ -40,7 +40,7 @@ if (!$LoginSuccessful){
     header('WWW-Authenticate: Basic realm="soporteInformaticaTrauma"');
     header('HTTP/1.0 401 Unauthorized');
  
-    print "Login fallo\n";
+    print "Error de Log In!\n"; //generar un 404
  
 }
 else {
