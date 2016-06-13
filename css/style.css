@@ -218,5 +218,10 @@ td{
   }
 
   .loginLabel{
-font-weight:normal;color:#000000;letter-spacing:2pt;word-spacing:2pt;font-size:1.3em;text-align:left;font-family:helvetica, sans-serif;line-height:1;
+font-weight:normal;color:#000000;letter-spacing:2pt;word-spacing:2pt;font-size:1.1em;text-align:left;font-family:helvetica, sans-serif;line-height:1;
+}
+
+.logout{
+  text-decoration: none;
+  color: #34495e;
 }

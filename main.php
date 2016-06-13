@@ -74,7 +74,7 @@ $estados = array('1'=>'En espera','2'=>'En reparacion','3'=>'Reparado','4'=>'Ent
 </head>
 
 <body>
-<h1>Soporte Informatica</h1><span id="userCred" class="loginLabel"><?php echo $usuario->getUsuario(); ?> &nbsp; <a href="lgout.php">Logout</a></span>
+<h1>Soporte Informatica</h1><span id="userCred" class="loginLabel"><?php echo $usuario->getUsuario(); ?> &nbsp; <a href="lgout.php" class="logout">(Logout)</a></span>
 <hr />
 <ul class="menu cf">
   
