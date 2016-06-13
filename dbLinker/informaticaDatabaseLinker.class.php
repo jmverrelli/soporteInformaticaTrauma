@@ -2,6 +2,7 @@
 include_once 'conectionData.php';
 include_once 'dataBaseConnector.php';
 include_once 'utils.php';
+include_once 'user.class.php';
 
 class informaticaDataBaseLinker
 {
@@ -326,6 +327,56 @@ class informaticaDataBaseLinker
 
     }
 
+
+    function existeUsuario($data)
+    {
+        $response = new stdClass();
+        $response->ret = false;
+        $response->message = "Hubo un error validando el usuario.";
+        $query = "SELECT * FROM usuarios WHERE usuario = '".$data['username']."' and habilitado = 1";
+        $this->dbInf->conectar();
+        $this->dbInf->ejecutarQuery($query);
+        $result = $this->dbInf->fetchRow($query);
+        if(!$result)
+        {
+            $response->message = "No existe un usuario con ese nombre.";
+            $this->dbInf->desconectar();
+            return $response;
+        }
+        $user = new Usuario();
+        if(md5($data['password']) == $result['password'])
+        {
+            session_start();
+            $user = new Usuario();
+            $user->setUsuario($result['usuario']);
+            $user->setId($result['id']);
+            $_SESSION['usuario'] = $user;
+            $response->ret = true;
+            $response->message = "LogIn";
+        }
+
+        return $response;
+
+
+    }
+
+    function agregarModifUsuario($data)
+    {
+        $response = new stdClass();
+        $response->ret = false;
+        $response->message = "Hubo un error al actualizar el usuario.";
+        $this->dbInf->conectar();
+
+
+        $query = "UPDATE usuarios SET password = '".md5($data['password'])."' WHERE id = ".$data['id'];
+        try{$this->dbInf->ejecutarAccion($query);$response->ret = true; $response->message = "Password modificado correctamente.";}
+        catch (Exception $e){echo "error intentando ejecutar query: $query <br> " . $e->getMessage();}
+            
+
+        $this->dbInf->desconectar();
+        return $response;
+
+    }
 
 
 }

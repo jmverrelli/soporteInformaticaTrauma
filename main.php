@@ -1,14 +1,20 @@
 <?php
 
-if(!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_USER']))
+include_once 'dbLinker/informaticaDatabaseLinker.class.php';
+include_once 'dbLinker/user.class.php';
+$infDb = new informaticaDataBaseLinker();
+
+session_start();
+
+if(!isset($_SESSION['usuario']))
 {
-  echo "No se identifico correctamente!."; //generar un 404!
+  header('Location: lgout.php');
   exit;
 }
-
-
-include_once 'dbLinker/informaticaDatabaseLinker.class.php';
-$infDb = new informaticaDataBaseLinker();
+else
+{
+  $usuario = $_SESSION['usuario'];
+}
 
 $reparaciones = $infDb->traerLista();
 
@@ -54,7 +60,7 @@ $estados = array('1'=>'En espera','2'=>'En reparacion','3'=>'Reparado','4'=>'Ent
 </head>
 
 <body>
-<h1>Soporte Informatica</h1>
+<h1>Soporte Informatica</h1><span id="userCred" class="loginLabel"><?php echo $usuario->getUsuario(); ?> &nbsp; <a href="lgout.php">Logout</a></span>
 <hr />
 <ul class="menu cf">
   
@@ -63,10 +69,11 @@ $estados = array('1'=>'En espera','2'=>'En reparacion','3'=>'Reparado','4'=>'Ent
     <ul class="submenu">
       <li><a name="altaUsuario" id="altaUsuario">Agregar usuario</a></li>
       <li><a name="bajaUsuario" id="bajaUsuario">Eliminar usuario</a></li>
+      <li><a name="modiUsuario" id="modiUsuario">Cambiar password</a></li>
    </ul>
   </li>
 
-  <li><a href="/soporteInformaticaTrauma/main.php">Lista Reparaciones</a></li>
+  <li><a href="#">Lista Reparaciones</a></li>
   
   <li>
     <a href="#">Editar</a>
@@ -114,6 +121,9 @@ $estados = array('1'=>'En espera','2'=>'En reparacion','3'=>'Reparado','4'=>'Ent
 </div>
 
 <div id="dialog-Bajausuario" name="dialog-Bajausuario">
+</div>
+
+<div id="dialog-ModiUsuario" name="dialog-ModiUsuario">
 </div>
 
 </body>

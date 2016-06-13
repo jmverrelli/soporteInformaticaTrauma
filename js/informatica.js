@@ -90,6 +90,50 @@ $(document).ready(function(){
         });          
   });
 
+  $('#modiUsuario').click(function(event){
+    event.preventDefault();
+        $("#dialog:ui-dialog").dialog("destroy");
+        $("#dialog-ModiUsuario").css('visibility',"visible");
+        $("#dialog-ModiUsuario").load("forms/modiUsuario.php",function(){ 
+          $("#dialog-ModiUsuario").dialog({
+            modal: true,
+           width: "500px",
+            height: "auto",
+            title: "Modifcar Usuario",
+            buttons:
+            {
+              "Modificar":function()
+                {
+                    dataForm = $('#formModiUsuario').serialize(); //PONERLE ESTE ID AL FORM
+                    $.ajax({
+                      data: dataForm,
+                      type: "POST",
+                      dataType: "json",
+                      url: "forms/guardarModiUsuario.php", //hacer este php para guardar
+                      success: function(data)
+                      {
+                        if(data.ret)
+                        {
+                          alert(data.message);
+                          location.reload();
+                        }
+                        else
+                        {
+                          alert(data.message);
+                        }
+                      }
+                    });
+                },
+                "Cerrar":function()
+                {
+                    $(this).dialog("close");
+                }
+            }
+          });
+        });          
+  });
+
+
   $('#bajaUsuario').click(function(event){
     event.preventDefault();
         $("#dialog:ui-dialog").dialog("destroy");
