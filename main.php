@@ -14,6 +14,20 @@ if(!isset($_SESSION['usuario']))
 else
 {
   $usuario = $_SESSION['usuario'];
+  $permisos = $infDb->traerPermisos($usuario->getId());
+  $agregarUsuario = false;
+  $eliminarUsuario = false;
+  for($i = 0; $i < count($permisos); $i++)
+  {
+    if($permisos[$i]['permiso'] == "AGREGAR_USUARIO")
+    {
+      $agregarUsuario = true;
+    }
+     if($permisos[$i]['permiso'] == "ELIMINAR_USUARIO")
+    {
+      $eliminarUsuario = true;
+    }
+  }
 }
 
 $reparaciones = $infDb->traerLista();
@@ -67,8 +81,8 @@ $estados = array('1'=>'En espera','2'=>'En reparacion','3'=>'Reparado','4'=>'Ent
   <li>
     <a href="">usuarios</a>
     <ul class="submenu">
-      <li><a name="altaUsuario" id="altaUsuario">Agregar usuario</a></li>
-      <li><a name="bajaUsuario" id="bajaUsuario">Eliminar usuario</a></li>
+      <?php if($agregarUsuario){echo '<li><a name="altaUsuario" id="altaUsuario">Agregar usuario</a></li>';} ?>
+      <?php if($eliminarUsuario){ echo '<li><a name="bajaUsuario" id="bajaUsuario">Eliminar usuario</a></li>';} ?>
       <li><a name="modiUsuario" id="modiUsuario">Cambiar password</a></li>
    </ul>
   </li>

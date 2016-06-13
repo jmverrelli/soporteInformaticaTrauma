@@ -378,5 +378,21 @@ class informaticaDataBaseLinker
 
     }
 
+    function traerPermisos($data)
+    {
+        $query="SELECT * from permisos where idusuario = ".$data.";";
+
+        try{$this->dbInf->conectar();$this->dbInf->ejecutarAccion($query);}
+        catch (Exception $e){echo "error intentando ejecutar query: $query <br> " . $e->getMessage();}
+        $ret = array();
+        for($i = 0 ; $i < $this->dbInf->querySize; $i++)
+        {
+            $result = $this->dbInf->fetchRow($query);
+            $ret[] = array('idusuario' => $result['idusuario'],'permiso' => $result['permiso']);
+        }
+        $this->dbInf->desconectar();
+        return $ret;
+    }
+
 
 }
