@@ -1,7 +1,6 @@
 <?php 
-include_once '../dbLinker/user.class.php';
 session_start();
-
+include_once '../dbLinker/user.class.php';
 $user = unserialize($_SESSION['usuarioSoporteInf']);
 
 ?>

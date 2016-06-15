@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once 'conectionData.php';
 include_once 'dataBaseConnector.php';
 include_once 'utils.php';
@@ -346,7 +347,6 @@ class informaticaDataBaseLinker
         $user = new usuarioSoporteInf();
         if(md5($data['password']) == $result['password'])
         {
-            session_start();
             $user = new usuarioSoporteInf();
             $user->setUsuario($result['usuario']);
             $user->setId($result['id']);

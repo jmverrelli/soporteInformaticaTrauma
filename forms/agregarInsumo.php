@@ -1,8 +1,10 @@
 <!-- esto ya hace y manda el formulario serializado a validarInsumo.php -->
 <?php
-include_once '../dbLinker/user.class.php';
 
 session_start();
+include_once '../dbLinker/user.class.php';
+
+
 
 $usuario = unserialize($_SESSION['usuarioSoporteInf']);
 
