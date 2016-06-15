@@ -352,7 +352,7 @@ class informaticaDataBaseLinker
             $user = new usuarioSoporteInf();
             $user->setUsuario($result['usuario']);
             $user->setId($result['id']);
-            $_SESSION['usuarioSoporteInf'] = serialize($user);
+            $_SESSION['usuarioSoporteInf'] = $result['id'];
             $response->ret = true;
             $response->message = "LogIn";
         }
@@ -360,6 +360,24 @@ class informaticaDataBaseLinker
         return $response;
 
 
+    }
+
+    function devolverUsuario($id)
+    {
+        $query = "SELECT * FROM usuarios WHERE id = '".$id."' and habilitado = 1";
+        $this->dbInf->conectar();
+        $this->dbInf->ejecutarQuery($query);
+        $result = $this->dbInf->fetchRow($query);
+        if(!$result)
+        {
+            $response->message = "No existe un usuario con ese nombre.";
+            $this->dbInf->desconectar();
+            return false;
+        }
+        $user = new usuarioSoporteInf();
+        $user->setUsuario($result['usuario']);
+        $user->setId($result['id']);
+        return $user;
     }
 
     function agregarModifUsuario($data)

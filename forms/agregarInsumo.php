@@ -8,8 +8,7 @@ include_once '../dbLinker/user.class.php';
 
 
 
-$usuario = $_SESSION['usuarioSoporteInf'];
-$usuario = unserialize($usuario);
+ $usuario = $infDb->devolverUsuario($_SESSION['usuarioSoporteInf']);
 
 ?>
 <script type="text/javascript">
