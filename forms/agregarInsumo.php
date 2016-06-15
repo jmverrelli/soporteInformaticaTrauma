@@ -6,6 +6,8 @@ if(session_id() == '') {
 }
 include_once '../dbLinker/user.class.php';
 
+$infDb = new informaticaDataBaseLinker();
+
 
 
  $usuario = $infDb->devolverUsuario($_SESSION['usuarioSoporteInf']);
