@@ -9,17 +9,13 @@ $infDb = new informaticaDataBaseLinker();
 
 if(!isset($_SESSION['usuarioSoporteInf']))
 {
-  $usuario = $infDb->devolverUsuario($_SESSION['usuarioSoporteInf']);
-
-  if(!$usuario)
-  {
-
   header('Location: lgout.php');
   exit;
-  }
 }
 else
 {
+  
+    $usuario = $infDb->devolverUsuario($_SESSION['usuarioSoporteInf']);
 
   $permisos = $infDb->traerPermisos($usuario->getId());
   $agregarUsuario = false;
