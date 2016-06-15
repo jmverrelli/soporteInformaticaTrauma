@@ -1,7 +1,9 @@
 <!-- esto ya hace y manda el formulario serializado a validarInsumo.php -->
 <?php
 
-session_start();
+if(session_id() == '') {
+    session_start();
+}
 include_once '../dbLinker/user.class.php';
 
 

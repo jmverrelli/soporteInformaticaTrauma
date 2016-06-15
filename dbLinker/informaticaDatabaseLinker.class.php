@@ -1,5 +1,7 @@
 <?php
-session_start();
+if(session_id() == '') {
+    session_start();
+}
 include_once 'conectionData.php';
 include_once 'dataBaseConnector.php';
 include_once 'utils.php';
