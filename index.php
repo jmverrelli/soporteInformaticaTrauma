@@ -34,13 +34,6 @@ $(document).ready(function(){
 
 </script>
     <link rel="stylesheet" href="css/style.css">
-<?php
-include_once 'dbLinker/informaticaDatabaseLinker.class.php';
-include_once 'dbLinker/user.class.php';
-
-$infDb = new informaticaDataBaseLinker();
-
-?>
 
 <form name="login" id="login" class="login">
 <div class="login"><label class="etiqueta loginLabel" for="username" >Usuario</label> <input type="text" name="username" id="username" /><br /></div>
