@@ -13,7 +13,7 @@ if(!isset($_SESSION['usuarioSoporteInf']))
 }
 else
 {
-  $usuario = $_SESSION['usuarioSoporteInf'];
+  $usuario = unserialize($_SESSION['usuarioSoporteInf']);
   $permisos = $infDb->traerPermisos($usuario->getId());
   $agregarUsuario = false;
   $eliminarUsuario = false;

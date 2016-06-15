@@ -4,7 +4,7 @@ include_once '../dbLinker/user.class.php';
 
 session_start();
 
-$usuario = $_SESSION['usuarioSoporteInf'];
+$usuario = unserialize($_SESSION['usuarioSoporteInf']);
 
 ?>
 <script type="text/javascript">
