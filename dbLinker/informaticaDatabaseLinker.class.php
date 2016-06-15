@@ -346,10 +346,9 @@ class informaticaDataBaseLinker
             $this->dbInf->desconectar();
             return $response;
         }
-        $user = new usuarioSoporteInf();
         if(md5($data['password']) == $result['password'])
         {
-            $user = new usuarioSoporteInf();
+            $user = new usuarioSoporteInformatica();
             $user->setUsuario($result['usuario']);
             $user->setId($result['id']);
             $_SESSION['usuarioSoporteInf'] = $result['id'];
@@ -374,7 +373,7 @@ class informaticaDataBaseLinker
             $this->dbInf->desconectar();
             return false;
         }
-        $user = new usuarioSoporteInf();
+        $user = new usuarioSoporteInformatica();
         $user->setUsuario($result['usuario']);
         $user->setId($result['id']);
         return $user;
