@@ -14,8 +14,15 @@ if(!isset($_SESSION['usuarioSoporteInf']))
 }
 else
 {
-  $usuario = $_SESSION['usuarioSoporteInf'];
-  $usuario = unserialize($usuario);
+  if($infDb->is_serialized($_SESSION['usuarioSoporteInf']))
+  {
+    $usuario = $_SESSION['usuarioSoporteInf'];
+    $usuario = unserialize($usuario);
+  }
+  else
+  {
+    $usuario = $_SESSION['usuarioSoporteInf'];
+  }
   $permisos = $infDb->traerPermisos($usuario->getId());
   $agregarUsuario = false;
   $eliminarUsuario = false;
