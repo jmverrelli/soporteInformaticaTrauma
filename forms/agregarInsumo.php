@@ -6,6 +6,7 @@ if(session_id() == '') {
 }
 include_once '../dbLinker/user.class.php';
 
+include_once '../dbLinker/informaticaDatabaseLinker.class.php';
 $infDb = new informaticaDataBaseLinker();
 
 
