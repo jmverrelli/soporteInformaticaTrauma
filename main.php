@@ -1,7 +1,7 @@
 <?php
-
-include_once 'dbLinker/informaticaDatabaseLinker.class.php';
 include_once 'dbLinker/user.class.php';
+include_once 'dbLinker/informaticaDatabaseLinker.class.php';
+
 $infDb = new informaticaDataBaseLinker();
 
 session_start();

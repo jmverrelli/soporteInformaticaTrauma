@@ -343,11 +343,11 @@ class informaticaDataBaseLinker
             $this->dbInf->desconectar();
             return $response;
         }
-        $user = new Usuario();
+        $user = new usuarioSoporteInf();
         if(md5($data['password']) == $result['password'])
         {
             session_start();
-            $user = new Usuario();
+            $user = new usuarioSoporteInf();
             $user->setUsuario($result['usuario']);
             $user->setId($result['id']);
             $_SESSION['usuarioSoporteInf'] = $user;

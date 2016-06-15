@@ -1,12 +1,12 @@
 <?php
 
-class Usuario {
+class UsuarioSoporteInf {
 	
 	var $id;
 	var $usuario;
 	var $password;
 
-	function Usuario(){
+	function UsuarioSoporteInf(){
 
 		$this->id = 0;
 		$this->usuario = null;
