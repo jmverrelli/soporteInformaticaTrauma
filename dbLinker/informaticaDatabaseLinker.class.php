@@ -350,7 +350,7 @@ class informaticaDataBaseLinker
             $user = new Usuario();
             $user->setUsuario($result['usuario']);
             $user->setId($result['id']);
-            $_SESSION['usuario'] = $user;
+            $_SESSION['usuarioSoporteInf'] = $user;
             $response->ret = true;
             $response->message = "LogIn";
         }

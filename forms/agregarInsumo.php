@@ -1,7 +1,14 @@
 <!-- esto ya hace y manda el formulario serializado a validarInsumo.php -->
+<?php
+include_once '../dbLinker/user.class.php';
 
+session_start();
+
+$usuario = $_SESSION['usuarioSoporteInf'];
+
+?>
 <script type="text/javascript">
-	
+
  
  $('#fechaRecibido').datepicker({ dateFormat: 'yy-mm-dd' });
 
@@ -60,6 +67,6 @@
 <textarea class="etiqueta" name="observaciones" id="observaciones"></textarea>
 </div>
 
-<input type="text" name="user" style="visibility:hidden; display:none;" value=<?php echo "'".$_SERVER['PHP_AUTH_USER']."'"; ?> >
+<input type="text" name="user" style="visibility:hidden; display:none;" value=<?php echo "'".$usuario->getUsuario()."'"; ?> >
 
 </form>

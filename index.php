@@ -1,8 +1,3 @@
-<!-- TODO: ESTILO EN INDEX
-    TODO: ESTILO EN LGOUT.PHP y agregar Relog
-    TODO: ESTILO EN USUARIO Y BOTON DE LOGOUT
-
-    -->
 
 <script src="js/jquery1-12.js" type="text/javascript"></script>
 <script src="js/jquery-ui.min.js" type="text/javascript"></script>
@@ -41,6 +36,8 @@ $(document).ready(function(){
     <link rel="stylesheet" href="css/style.css">
 <?php
 include_once 'dbLinker/informaticaDatabaseLinker.class.php';
+include_once 'dbLinker/user.class.php';
+
 $infDb = new informaticaDataBaseLinker();
 
 ?>

@@ -6,14 +6,14 @@ $infDb = new informaticaDataBaseLinker();
 
 session_start();
 
-if(!isset($_SESSION['usuario']))
+if(!isset($_SESSION['usuarioSoporteInf']))
 {
   header('Location: lgout.php');
   exit;
 }
 else
 {
-  $usuario = $_SESSION['usuario'];
+  $usuario = $_SESSION['usuarioSoporteInf'];
   $permisos = $infDb->traerPermisos($usuario->getId());
   $agregarUsuario = false;
   $eliminarUsuario = false;
