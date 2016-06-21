@@ -2,6 +2,12 @@
 if(session_id() == '') {
     session_start();
 }
+if(!isset($_SESSION['usuarioSoporteInf']))
+{
+  header('Location: lgout.php');
+  exit;
+}
+
 include_once '../dbLinker/user.class.php';
  $usuario = $infDb->devolverUsuario($_SESSION['usuarioSoporteInf']);
 

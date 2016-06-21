@@ -47,7 +47,7 @@ class informaticaDataBaseLinker
 		for($i = 0 ; $i < $this->dbInf->querySize; $i++)
 		{
 			$result = $this->dbInf->fetchRow($query);
-			$ret[] = array('id' => $result['id'],'equipo' => $result['equipo'],'estado' => $result['estado'],'fecha_ingreso' => $result['fecha_ingreso'],'hora_ingreso' => $result['hora_ingreso'],'centro' => $result['centro'],'sector' => $result['sector'], 'observaciones' =>$result['observaciones'],'usuario' => $result['usuario']);
+			$ret[] = array('id' => $result['id'],'equipo' => $result['equipo'],'estado' => $result['estado'],'fecha_modificado' => $result['fecha_modificado'],'fecha_ingreso' => $result['fecha_ingreso'],'hora_ingreso' => $result['hora_ingreso'],'centro' => $result['centro'],'sector' => $result['sector'], 'observaciones' =>$result['observaciones'],'usuario' => $result['usuario']);
 		}
 		$this->dbInf->desconectar();
 		return $ret;

@@ -104,11 +104,18 @@ $estados = array('1'=>'En espera','2'=>'En reparacion','3'=>'Reparado','4'=>'Ent
 <div id="listaReparaciones" name="listaReparaciones">
 <form id="formReparaciones" name="formReparaciones">
 <table class="tabla">
-  <tr><th>Equipo</th><th>Estado</th><th>Fecha Ingreso</th><th>Hora Ingreso</th><th>Centro</th><th>Sector</th><th>Observaciones</th><th>Usuario</th></tr>
+  <tr><th>Equipo</th><th>Estado</th><th>Ultima Modificacion</th><th>Fecha Ingreso</th><th>Hora Ingreso</th><th>Centro</th><th>Sector</th><th>Observaciones</th><th>Usuario</th></tr>
 
   <?php 
   for($i = 0; $i < count($reparaciones); $i++){
-    $optionEstado = "<select class='select' id='Reparacion".$reparaciones[$i]['id']."' name='".$reparaciones[$i]['id']."'>";
+    $disabled = '';
+        if($reparaciones[$i]['estado'] == 4){
+          $disabled = " disabled ";
+        }
+        if($reparaciones[$i]['estado'] == 5){
+          $disabled = " disabled ";
+        }
+    $optionEstado = "<select ".$disabled." class='select' id='Reparacion".$reparaciones[$i]['id']."' name='".$reparaciones[$i]['id']."'>";
     for($x = 1; $x <= count($estados) ; $x++ ){
         $selected = '';
         if($reparaciones[$i]['estado'] == $x){
@@ -118,8 +125,8 @@ $estados = array('1'=>'En espera','2'=>'En reparacion','3'=>'Reparado','4'=>'Ent
     }
     $optionEstado .= "</select>";    
 
-    echo "<tr><td>".$reparaciones[$i]['equipo']."</td><td>".$optionEstado."</td><td>".$reparaciones[$i]['fecha_ingreso'].
-        "</td><td>".$reparaciones[$i]['hora_ingreso']."</td><td>".$centros[$reparaciones[$i]['centro']]."</td><td>".$reparaciones[$i]['sector']."<td>".$reparaciones[$i]['observaciones']."
+    echo "<tr><td>".$reparaciones[$i]['equipo']."</td><td>".$optionEstado."</td><td>".$reparaciones[$i]['fecha_modificado']."</td><td>".$reparaciones[$i]['fecha_ingreso'].
+        "</td><td>".$reparaciones[$i]['hora_ingreso']."</td><td>".$centros[$reparaciones[$i]['centro']]."</td><td>".$reparaciones[$i]['sector']."<td class='longtext'>".$reparaciones[$i]['observaciones']."
         </td><td>".$reparaciones[$i]['usuario']."
         </td></tr>";
   }
