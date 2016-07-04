@@ -83,88 +83,33 @@ class informaticaDataBaseLinker
 
 	}
 
-	function getEquiposJson($page, $rows, $filters, $sidx, $sord)
+	function getStockJson($page, $rows, $filters, $sidx, $sord)
     {
         $response = new stdClass();
         $this->dbInf->conectar();
 
-        $equipossarray = $this->getEquipos($page, $rows, $filters, $sidx, $sord); //
+        $stockarray = $this->getStock($page, $rows, $filters, $sidx, $sord); //
 
         $response->page = $page;
-        $response->total = ceil($this->getCantidadEquipos($filters) / $rows); //
-        $response->records = $this->getCantidadEquipos($filters); //
+        $response->total = ceil($this->getCantidadStock($filters) / $rows); //
+        $response->records = $this->getCantidadStock($filters); //
 
         $this->dbInf->desconectar();
 
-        for ($i=0; $i < count($equipossarray) ; $i++) 
+        for ($i=0; $i < count($stockarray) ; $i++) 
         {
-            $equipos = $equipossarray[$i];
+            $equipos = $stockarray[$i];
             //id de fila
-            $response->rows[$i]['id'] = $equipos['id']; 
+            $response->rows[$i]['Id'] = $equipos['Id']; 
             //datos de la fila en otro array
             $row = array();
-            $row[] = $equipos['id'];
-            $row[] = $equipos['equipo'];
+            $row[] = $equipos['Id'];
+            $row[] = $equipos['Equipo'];
             //$row[] = $equipos['estado'];
-            switch ($equipos['estado']) {
-            	case '1':
-            		$row[] = 'En espera';
-            		break;
-            	case '2':
-            		$row[] = 'En reparacion';
-            		break;
-            	case '3':
-            		$row[] = 'Reparado';
-            		break;
-            	case '4':
-            		$row[] = 'Entregado';
-            		break;
-
-            	case '5':
-            		$row[] = 'Baja';
-            		break;
-            	
-            	default:
-            		$row[] = $equipos['estado'];
-            		break;
-            }
-            $row[] = $equipos['fecha_ingreso'];
-            $row[] = $equipos['hora_ingreso'];
+            $row[] = $equipos['Cantidad'];
+            $row[] = $equipos['fecha_modificado'];
             //$row[] = $equipos['centro'];
-           	 switch ($equipos['centro']) {
-            	case '1':
-            		$row[] = 'Abete';
-            		break;
-            	case '2':
-            		$row[] = 'Pediatrico';
-            		break;
-            	case '3':
-            		$row[] = 'Materno';
-            		break;
-            	case '4':
-            		$row[] = 'Cormillot';
-            		break;
-
-            	case '5':
-            		$row[] = 'Polo';
-            		break;
-
-            	case '6':
-            		$row[] = 'Drozdowski';
-            		break;
-
-            	case '7':
-            		$row[] = 'Otros';
-            		break;
-            	
-            	default:
-            		$row[] = $equipos['estado'];
-            		break;
-            }
-            $row[] = $equipos['sector'];
-            $row[] = $equipos['observaciones'];
-            $row[] = $equipos['usuario'];
-            $row[] = '';
+           	 $row[] = '';
             //agrego datos a la fila con clave cell
 
 
@@ -172,26 +117,21 @@ class informaticaDataBaseLinker
         }
 
         $response->userdata['Id']= 'Id';
-        $response->userdata['equipo']= 'equipo';
-        $response->userdata['estado']= 'estado';
-        $response->userdata['fecha_ingreso']= 'fecha_ingreso';
-        $response->userdata['hora_ingreso']= 'hora_ingreso';
-        $response->userdata['centro']= 'centro';
-        $response->userdata['sector']= 'sector';
-        $response->userdata['observaciones']= 'observaciones';
-        $response->userdata['usuario']= 'usuario';
+        $response->userdata['Equipo']= 'Equipo';
+        $response->userdata['Cantidad']= 'Cantidad';
+        $response->userdata['fecha_modificado']= 'fecha_modificado';
         $response->userdata['myac'] = '';
 
         return json_encode($response);
     }
 
-    private function getEquipos($page, $rows, $filters, $sidx, $sord)
+    private function getStock($page, $rows, $filters, $sidx, $sord)
     {
         $where = "";
 
         if(strlen($sidx)==0)
         {
-        	$sidx = ' id ';
+        	$sidx = ' Id ';
         }
 
         if(count($filters)>0)
@@ -208,17 +148,12 @@ class informaticaDataBaseLinker
         $offset = ($page - 1) * $rows;
 
         $query="SELECT
-                    id,
-                    equipo AS equipo,
-                    estado AS estado,
-                    fecha_ingreso AS fecha_ingreso,
-                    hora_ingreso AS hora_ingreso,
-                    centro AS centro,
-                    sector AS sector,
-                    observaciones as observaciones,
-                    usuario as usuario
+                    Id,
+                    Equipo AS Equipo,
+                    Cantidad AS Cantidad,
+                    fecha_modificado AS fecha_modificado
                 FROM 
-                    informatica
+                    stock
                 WHERE
                     fecha_modificado IS NOT NULL ".$where." ".$sort;
     
@@ -237,14 +172,14 @@ class informaticaDataBaseLinker
         return $ret;
     }
     
-    private function getCantidadEquipos($filters = null)
+    private function getCantidadStock($filters = null)
     {
 
         $where = " ";
         $query="SELECT 
                     COUNT(*) as cantidad
                 FROM 
-                    informatica";
+                    stock";
         $query .= " " . $where;
         
         $this->dbInf->ejecutarQuery($query);
@@ -252,6 +187,7 @@ class informaticaDataBaseLinker
         $ret = $result['cantidad'];
         return $ret;
     }
+
 
     function actualizarRegistro($data)
     {
@@ -267,6 +203,21 @@ class informaticaDataBaseLinker
 			catch (Exception $e){echo "error intentando ejecutar query: $query <br> " . $e->getMessage();}
 	$this->dbInf->desconectar();
 			return $response;
+    }
+
+
+    function actualizarRegistroStock($data)
+    {
+        $response = new stdClass();
+        $response->ret = false;
+        $response->message = "Hubo un error al actualizar el stock.";
+        $this->dbInf->conectar();
+        $query = "UPDATE stock SET cantidad = '".$data['Cantidad']."', 
+                    fecha_modificado = now() WHERE id = ".$data['id'].";";
+        try{$this->dbInf->ejecutarAccion($query);$response->ret = true; $response->message = "Equipo modificado correctamente.";}
+            catch (Exception $e){echo "error intentando ejecutar query: $query <br> " . $e->getMessage();}
+    $this->dbInf->desconectar();
+            return $response;
     }
 
     function tieneAcceso($usr, $psw)
@@ -295,6 +246,23 @@ class informaticaDataBaseLinker
                     VALUES('".$data['usuario']."','".md5($data['password'])."',1);";
 
         try{$this->dbInf->conectar();$this->dbInf->ejecutarAccion($query);$response->ret = true; $response->message = "Usuario agregado correctamente.";}
+        catch (Exception $e){echo "error intentando ejecutar query: $query <br> " . $e->getMessage();}
+
+        $this->dbInf->desconectar();
+
+        return $response;
+
+    }
+
+    function agregarNuevoStock($data)
+    {
+        $response = new stdClass();
+        $response->ret = false;
+        $response->message = "Hubo un error agregando el stock.";
+        $query = "INSERT INTO stock (equipo, cantidad, fecha_modificado)
+                    VALUES('".$data['equipo']."',".$data['cantidad'].",now());";
+
+        try{$this->dbInf->conectar();$this->dbInf->ejecutarAccion($query);$response->ret = true; $response->message = "Stock agregado correctamente.";}
         catch (Exception $e){echo "error intentando ejecutar query: $query <br> " . $e->getMessage();}
 
         $this->dbInf->desconectar();
@@ -482,6 +450,183 @@ class informaticaDataBaseLinker
     }
     return true;
 }
+
+
+
+
+
+
+
+
+    function getEquiposJson($page, $rows, $filters, $sidx, $sord)
+    {
+        $response = new stdClass();
+        $this->dbInf->conectar();
+
+        $equipossarray = $this->getEquipos($page, $rows, $filters, $sidx, $sord); //
+
+        $response->page = $page;
+        $response->total = ceil($this->getCantidadEquipos($filters) / $rows); //
+        $response->records = $this->getCantidadEquipos($filters); //
+
+        $this->dbInf->desconectar();
+
+        for ($i=0; $i < count($equipossarray) ; $i++) 
+        {
+            $equipos = $equipossarray[$i];
+            //id de fila
+            $response->rows[$i]['id'] = $equipos['id']; 
+            //datos de la fila en otro array
+            $row = array();
+            $row[] = $equipos['id'];
+            $row[] = $equipos['equipo'];
+            //$row[] = $equipos['estado'];
+            switch ($equipos['estado']) {
+                case '1':
+                    $row[] = 'En espera';
+                    break;
+                case '2':
+                    $row[] = 'En reparacion';
+                    break;
+                case '3':
+                    $row[] = 'Reparado';
+                    break;
+                case '4':
+                    $row[] = 'Entregado';
+                    break;
+
+                case '5':
+                    $row[] = 'Baja';
+                    break;
+                
+                default:
+                    $row[] = $equipos['estado'];
+                    break;
+            }
+            $row[] = $equipos['fecha_ingreso'];
+            $row[] = $equipos['hora_ingreso'];
+            //$row[] = $equipos['centro'];
+             switch ($equipos['centro']) {
+                case '1':
+                    $row[] = 'Abete';
+                    break;
+                case '2':
+                    $row[] = 'Pediatrico';
+                    break;
+                case '3':
+                    $row[] = 'Materno';
+                    break;
+                case '4':
+                    $row[] = 'Cormillot';
+                    break;
+
+                case '5':
+                    $row[] = 'Polo';
+                    break;
+
+                case '6':
+                    $row[] = 'Drozdowski';
+                    break;
+
+                case '7':
+                    $row[] = 'Otros';
+                    break;
+                
+                default:
+                    $row[] = $equipos['estado'];
+                    break;
+            }
+            $row[] = $equipos['sector'];
+            $row[] = $equipos['observaciones'];
+            $row[] = $equipos['usuario'];
+            $row[] = '';
+            //agrego datos a la fila con clave cell
+
+
+            $response->rows[$i]['cell'] = $row;
+        }
+
+        $response->userdata['Id']= 'Id';
+        $response->userdata['equipo']= 'equipo';
+        $response->userdata['estado']= 'estado';
+        $response->userdata['fecha_ingreso']= 'fecha_ingreso';
+        $response->userdata['hora_ingreso']= 'hora_ingreso';
+        $response->userdata['centro']= 'centro';
+        $response->userdata['sector']= 'sector';
+        $response->userdata['observaciones']= 'observaciones';
+        $response->userdata['usuario']= 'usuario';
+        $response->userdata['myac'] = '';
+
+        return json_encode($response);
+    }
+
+    private function getEquipos($page, $rows, $filters, $sidx, $sord)
+    {
+        $where = "";
+
+        if(strlen($sidx)==0)
+        {
+            $sidx = ' id ';
+        }
+
+        if(count($filters)>0)
+        {
+            for($i=0; $i < count($filters['rules']); $i++ )
+            {
+                $where.=$filters['groupOp']." ";
+                $where.=$filters['rules'][$i]['field']." REGEXP '".$filters['rules'][$i]['data']."' ";
+            }
+        }
+
+        $sort = "ORDER BY ".$sidx." ".$sord;
+
+        $offset = ($page - 1) * $rows;
+
+        $query="SELECT
+                    id,
+                    equipo AS equipo,
+                    estado AS estado,
+                    fecha_ingreso AS fecha_ingreso,
+                    hora_ingreso AS hora_ingreso,
+                    centro AS centro,
+                    sector AS sector,
+                    observaciones as observaciones,
+                    usuario as usuario
+                FROM 
+                    informatica
+                WHERE
+                    fecha_modificado IS NOT NULL ".$where." ".$sort;
+    
+        $query = $query . " LIMIT ".$rows." OFFSET ".$offset.";";
+
+        $this->dbInf->ejecutarQuery($query);
+
+        $ret = array();
+
+        for ($i = 0; $i < $this->dbInf->querySize; $i++)
+        {
+            $reclamo = $this->dbInf->fetchRow($query);
+            $ret[] = $reclamo;
+        }
+
+        return $ret;
+    }
+    
+    private function getCantidadEquipos($filters = null)
+    {
+
+        $where = " ";
+        $query="SELECT 
+                    COUNT(*) as cantidad
+                FROM 
+                    informatica";
+        $query .= " " . $where;
+        
+        $this->dbInf->ejecutarQuery($query);
+        $result = $this->dbInf->fetchRow($query);
+        $ret = $result['cantidad'];
+        return $ret;
+    }
 
 
 }

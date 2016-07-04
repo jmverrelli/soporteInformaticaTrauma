@@ -205,7 +205,76 @@ $(document).ready(function(){
         });          
   });
 
+  $('#listaStock').click(function(event){
+    event.preventDefault();
+        $("#dialog:ui-dialog").dialog("destroy");
+        $("#dialog-listaStock").css('visibility',"visible");
+        $("#dialog-listaStock").load("forms/listaStock.php"/*,{cod_centro:centro,nombre_centro:nombrecentro 
+        ,cod_secfis:cod_secfis,sectorFisico:sectorFisico}*/,function(){
+          $("#dialog-listaStock").dialog({
+            modal: true,
+           width: "auto",
+            height: "auto",
+            title: "Stock",
+            buttons:
+            {
+                "Cerrar":function()
+                {
+                    $(this).dialog("close");
+                    location.reload();
+                }
+            },
+            closeOnEscape: false,
+            open: function(event, ui) {
+                $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+            }
+          });
+        });          
+  });
 
+
+ $('#agregarStock').click(function(event){
+    event.preventDefault();
+        $("#dialog:ui-dialog").dialog("destroy");
+        $("#dialog-agregarStock").css('visibility',"visible");
+        $("#dialog-agregarStock").load("forms/agregarStock.php",function(){  //HACER ESTE FORM
+          $("#dialog-agregarStock").dialog({
+            modal: true,
+           width: "500px",
+            height: "auto",
+            title: "Agregar Nuevo Item al Stock",
+            buttons:
+            {
+              "Agregar":function()
+                {
+                    dataForm = $('#formAltaStock').serialize(); //PONERLE ESTE ID AL FORM
+                    $.ajax({
+                      data: dataForm,
+                      type: "POST",
+                      dataType: "json",
+                      url: "forms/agregarNuevoStock.php", //hacer este php para guardar
+                      success: function(data)
+                      {
+                        if(data.ret)
+                        {
+                          alert(data.message);
+                          location.reload();
+                        }
+                        else
+                        {
+                          alert(data.message);
+                        }
+                      }
+                    });
+                },
+                "Cerrar":function()
+                {
+                    $(this).dialog("close");
+                }
+            }
+          });
+        });          
+  });
 
 
 

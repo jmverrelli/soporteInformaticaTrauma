@@ -20,6 +20,7 @@ else
   $permisos = $infDb->traerPermisos($usuario->getId());
   $agregarUsuario = false;
   $eliminarUsuario = false;
+  $stock = false;
   for($i = 0; $i < count($permisos); $i++)
   {
     if($permisos[$i]['permiso'] == "AGREGAR_USUARIO")
@@ -29,6 +30,10 @@ else
      if($permisos[$i]['permiso'] == "ELIMINAR_USUARIO")
     {
       $eliminarUsuario = true;
+    }
+    if($permisos[$i]['permiso'] == "STOCK")
+    {
+      $stock = true;
     }
   }
 }
@@ -91,6 +96,14 @@ $estados = array('1'=>'En espera','2'=>'En reparacion','3'=>'Reparado','4'=>'Ent
   </li>
 
   <li><a href="#">Lista Reparaciones</a></li>
+
+  <li>
+    <a href="#">Stock</a>
+    <ul class="submenu">
+       <?php if($stock){echo '<li><a name="listaStock" id="listaStock">Stock</a></li>';} ?>
+       <?php if($stock){echo '<li><a name="agregarStock" id="agregarStock">Agregar Nuevo Stock</a></li>';} ?>
+   </ul>
+  </li>
   
   <li>
     <a href="#">Editar</a>
@@ -148,6 +161,12 @@ $estados = array('1'=>'En espera','2'=>'En reparacion','3'=>'Reparado','4'=>'Ent
 </div>
 
 <div id="dialog-ModiUsuario" name="dialog-ModiUsuario">
+</div>
+
+<div id="dialog-listaStock" name="dialog-listaStock">
+</div>
+
+<div id="dialog-agregarStock" name="dialog-agregarStock">
 </div>
 
 </body>
