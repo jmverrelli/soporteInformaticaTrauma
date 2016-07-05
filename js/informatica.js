@@ -232,6 +232,33 @@ $(document).ready(function(){
         });          
   });
 
+    $('#listaStockSinEd').click(function(event){
+    event.preventDefault();
+        $("#dialog:ui-dialog").dialog("destroy");
+        $("#dialog-listaStockSinEd").css('visibility',"visible");
+        $("#dialog-listaStockSinEd").load("forms/listaStockSinEd.php"/*,{cod_centro:centro,nombre_centro:nombrecentro 
+        ,cod_secfis:cod_secfis,sectorFisico:sectorFisico}*/,function(){
+          $("#dialog-listaStockSinEd").dialog({
+            modal: true,
+           width: "auto",
+            height: "auto",
+            title: "Stock",
+            buttons:
+            {
+                "Cerrar":function()
+                {
+                    $(this).dialog("close");
+                    location.reload();
+                }
+            },
+            closeOnEscape: false,
+            open: function(event, ui) {
+                $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+            }
+          });
+        });          
+  });
+
 
  $('#agregarStock').click(function(event){
     event.preventDefault();

@@ -98,9 +98,9 @@ $estados = array('1'=>'En espera','2'=>'En reparacion','3'=>'Reparado','4'=>'Ent
   <li><a href="#">Lista Reparaciones</a></li>
 
   <li>
-    <a href="#">Stock</a>
+    <a name="listaStockSinEd" id="listaStockSinEd">Stock</a>
     <ul class="submenu">
-       <?php if($stock){echo '<li><a name="listaStock" id="listaStock">Stock</a></li>';} ?>
+       <?php if($stock){echo '<li><a name="listaStock" id="listaStock">Modificar Stock</a></li>';} ?>
        <?php if($stock){echo '<li><a name="agregarStock" id="agregarStock">Agregar Nuevo Stock</a></li>';} ?>
    </ul>
   </li>
@@ -167,6 +167,9 @@ $estados = array('1'=>'En espera','2'=>'En reparacion','3'=>'Reparado','4'=>'Ent
 </div>
 
 <div id="dialog-agregarStock" name="dialog-agregarStock">
+</div>
+
+<div id="dialog-listaStockSinEd" name="dialog-listaStockSinEd">
 </div>
 
 </body>
